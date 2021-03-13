@@ -1,5 +1,9 @@
 package classes;
 
+import classes.accounts.Account;
+
+import java.util.ArrayList;
+
 public class Client {
     private String firstName;
     private String lastName;
@@ -7,7 +11,7 @@ public class Client {
     private String address;
     private long phoneNumber;
     private long personalCodeNumber;
-    private Account account;
+    private ArrayList<Account> accounts ;
 
     public Client(String firstName, String lastName, String email, String address, long phoneNumber, long personalCodeNumber, Account account)
     {
@@ -17,7 +21,8 @@ public class Client {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.personalCodeNumber = personalCodeNumber;
-        this.account = new Account(account);
+        this.accounts = new ArrayList<Account>();
+        this.accounts.add(account);
     }
 
 }
