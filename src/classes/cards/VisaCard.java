@@ -1,20 +1,23 @@
 package classes.cards;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 public class VisaCard
 {
-    private long cardNumber;
+    private static int nrCards = 0;
+    private int ID;
+    private String  cardNumber;
     private Calendar createDate;
     private Calendar expirationDate;
     private String pin;
     private String CVV2;
 
-    public VisaCard(long cardNumber, String pin, String CVV2)
+    public VisaCard(String cardNumber, String pin, String CVV2)
     {
+        this.ID = nrCards++;
         this.cardNumber = cardNumber;
         this.createDate = Calendar.getInstance();
         this.expirationDate =  Calendar.getInstance();
@@ -23,11 +26,28 @@ public class VisaCard
         this.CVV2 = CVV2;
     }
 
-    public long getCardNumber() {
+    public VisaCard(int ID, String cardNumber, String createDate, String expirationDate, String pin, String CVV2) throws ParseException {
+        nrCards++;
+        this.ID = ID;
+        this.cardNumber = cardNumber;
+
+        this.createDate = new GregorianCalendar();
+        Date thedate = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(createDate);
+        this.createDate.setTime(thedate);
+
+        this.expirationDate = new GregorianCalendar();
+        thedate = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(createDate);
+        this.expirationDate.setTime(thedate);
+
+        this.pin = pin;
+        this.CVV2 = CVV2;
+    }
+
+    public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(long cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 
