@@ -1,16 +1,22 @@
 package classes.accounts;
 
-
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class Deposit extends Account {
+
     private int period;
-    public Deposit(String IBAN, double balance, int period)
+    public Deposit(double balance, int period)
     {
-        super(IBAN, balance);
+        super(balance);
         this.period = period;
     }
 
+    public Deposit(int ID, String IBAN, double balance, String createDate, int period) throws ParseException {
+        super(ID, IBAN, balance, createDate);
+        this.period = period;
+    }
     public int getPeriod() {
         return period;
     }

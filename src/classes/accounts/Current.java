@@ -1,26 +1,38 @@
 package classes.accounts;
-
-import classes.Client;
-import classes.cards.VisaCard;
-
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Objects;
 
 
 public class Current extends Account {
-    private VisaCard card;
+
+    private Integer IdCard;
     
-    public Current(String IBAN, double balance, VisaCard card)
+    public Current(double balance)
     {
-        super(IBAN, balance);
-        this.card = card;
+        super(balance);
+        this.IdCard = -1;
+    }
+    public Current(int ID, String IBAN, double balance, String createDate, Integer idCard) throws ParseException
+    {
+        super(ID, IBAN, balance, createDate);
+        this.IdCard = idCard;
+    }
+
+
+    public Integer getIdCard() {
+        return IdCard;
+    }
+
+    public void setIdCard(Integer idCard) {
+        IdCard = idCard;
     }
 
     public String toString() {
         return  "Current" + '\n' +
                 "IBAN: " + IBAN + '\n' +
                 "Balance: " + balance + '\n' +
-                "Created at: " + createDate.getTime() + '\n' +
-                "CARD: " + '\n' + card.toString() + '\n';
+                "Created at: " + createDate.getTime() + '\n';
     }
 
     @Override
@@ -29,12 +41,12 @@ public class Current extends Account {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Current current = (Current) o;
-        return Objects.equals(card, current.card);
+        return Objects.equals(IdCard, current.IdCard);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), card);
+        return Objects.hash(super.hashCode(), IdCard);
     }
 
     @Override
