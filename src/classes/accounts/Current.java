@@ -1,4 +1,7 @@
 package classes.accounts;
+import classes.cards.CardService;
+import classes.cards.VisaCard;
+
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Objects;
@@ -29,10 +32,15 @@ public class Current extends Account {
     }
 
     public String toString() {
-        return  "Current" + '\n' +
+        String afisare =
+                "Current" + '\n' +
+                "ID Account: " + ID + '\n' +
                 "IBAN: " + IBAN + '\n' +
                 "Balance: " + balance + '\n' +
                 "Created at: " + createDate.getTime() + '\n';
+        VisaCard v = CardService.getCardById(IdCard);
+        afisare += v.toString();
+        return afisare;
     }
 
     @Override

@@ -1,5 +1,8 @@
 package classes;
 
+import classes.accounts.Account;
+import classes.accounts.AccountService;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -104,17 +107,21 @@ public class Client implements Comparable<Client>{
 
     @Override
     public String toString() {
-        String afisare =   "ID " + ID + '\n' +
-                "First name: " + firstName  + '\n' +
-                "Last name: " + lastName  + '\n' +
-                "Email: " + email  + '\n' +
-                "Address: " + address  + '\n' +
-                "Phone number: " + phoneNumber + '\n' +
-                "Personal code number: " + personalCodeNumber + '\n';
-//        for (Integer account : accounts)
-//        {
-//            afisare += account.toString();
-//        }
+        String afisare =
+                        "ID Client " + ID + '\n' +
+                        "First name: " + firstName  + '\n' +
+                        "Last name: " + lastName  + '\n' +
+                        "Email: " + email  + '\n' +
+                        "Address: " + address  + '\n' +
+                        "Phone number: " + phoneNumber + '\n' +
+                        "Personal code number: " + personalCodeNumber + '\n' +
+                        "List of accounts:\n";
+        for (Integer id : accounts)
+        {
+            Account a = AccountService.getAccountById(id);
+
+            afisare += a.toString() + " ";
+        }
         return  afisare;
     }
 
