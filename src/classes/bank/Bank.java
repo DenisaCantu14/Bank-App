@@ -8,8 +8,7 @@ public class Bank {
     private String address;
     private int code;
 
-
-    private Bank(String name, String address, int code)
+    public Bank(String name, String address, int code)
     {
         this.name = name;
         this.address = address;
