@@ -1,22 +1,48 @@
 package classes;
 
 import classes.accounts.Account;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Transaction {
 
+    public static int nrTransactions = 0;
+    private int ID;
     private Calendar date;
-    private Account sourceAccount;
-    private Account targetAccount;
+    private Integer sourceAccount;
+    private Integer targetAccount;
     private double sold;
 
-    public Transaction(Calendar date, Account sourceAccount, Account targetAccount, double sold) {
-        this.date = date;
+    public Transaction(String  date, Integer sourceAccount, Integer targetAccount, double sold) throws ParseException {
+        this.ID = nrTransactions++;
+        this.date = Calendar.getInstance();
         this.sourceAccount = sourceAccount;
         this.targetAccount = targetAccount;
         this.sold = sold;
+    }
+
+    public Transaction(Integer ID, String  date, Integer sourceAccount, Integer targetAccount, double sold) throws ParseException {
+        this.ID = ID;
+        nrTransactions++;
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        Date d = sdf.parse(date);
+        this.date = sdf.getCalendar();
+        this.sourceAccount = sourceAccount;
+        this.targetAccount = targetAccount;
+        this.sold = sold;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public Date getDate() {
@@ -27,19 +53,19 @@ public class Transaction {
         this.date = date;
     }
 
-    public Account getSourceAccount() {
+    public Integer getSourceAccount() {
         return sourceAccount;
     }
 
-    public void setSourceAccount(Account sourceAccount) {
+    public void setSourceAccount(Integer sourceAccount) {
         this.sourceAccount = sourceAccount;
     }
 
-    public Account getTargetAccount() {
+    public Integer getTargetAccount() {
         return targetAccount;
     }
 
-    public void setTargetAccount(Account targetAccount) {
+    public void setTargetAccount(Integer targetAccount) {
         this.targetAccount = targetAccount;
     }
 
@@ -54,6 +80,7 @@ public class Transaction {
     @Override
     public String toString() {
         return "TRANSACTION" + '\n' +
+                "ID" + ID + '\n' +
                 "Date :" + date.getTime() + "\n\n" +
                 "SOURCE ACCOUNT: " + '\n' + sourceAccount.toString() +
                 "TARGET ACCOUNT: " + '\n' + targetAccount.toString() + '\n' +
@@ -65,11 +92,11 @@ public class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return Double.compare(that.sold, sold) == 0 && Objects.equals(date, that.date) && Objects.equals(sourceAccount, that.sourceAccount) && Objects.equals(targetAccount, that.targetAccount);
+        return ID == that.ID && Double.compare(that.sold, sold) == 0 && Objects.equals(date, that.date) && Objects.equals(sourceAccount, that.sourceAccount) && Objects.equals(targetAccount, that.targetAccount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, sourceAccount, targetAccount, sold);
+        return Objects.hash(ID, date, sourceAccount, targetAccount, sold);
     }
 }
