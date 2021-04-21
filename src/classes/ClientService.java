@@ -1,12 +1,10 @@
 package classes;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Scanner;
 
 public class ClientService {
 
@@ -21,13 +19,20 @@ public class ClientService {
                     BufferedReader br = new BufferedReader(new FileReader("src/files/Clients.csv"));
                     while ((line = br.readLine()) != null) {
                         String[] data = line.split(splitBy);
-                        String firstName = data[0];
-                        String lastName = data[1];
-                        String email = data[2];
-                        String address = data[3];
-                        String phoneNumber = data[4];
-                        String personalCode = data[5];
-                        Client c = new Client(firstName, lastName, email, address, phoneNumber, personalCode);
+                        int id = Integer.parseInt(data[0]);
+                        String firstName = data[1];
+                        String lastName = data[2];
+                        String email = data[3];
+                        String address = data[4];
+                        String phoneNumber = data[5];
+                        String personalCode = data[6];
+                        String [] accountsIds = data[7].split(" ");
+                        ArrayList<Integer> ids = new ArrayList<>();
+                        for(String s : accountsIds)
+                        {
+                            ids.add(Integer.parseInt(s));
+                        }
+                        Client c = new Client(id, firstName, lastName, email, address, phoneNumber, personalCode, ids);
                         clients.add(c);
                     }
                 } catch (IOException e) {
