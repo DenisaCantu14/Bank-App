@@ -43,6 +43,14 @@ public class VisaCard
         this.CVV2 = CVV2;
     }
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
     public String getCardNumber() {
         return cardNumber;
     }
