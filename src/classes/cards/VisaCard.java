@@ -31,13 +31,13 @@ public class VisaCard
         this.ID = ID;
         this.cardNumber = cardNumber;
 
-        this.createDate = new GregorianCalendar();
-        Date thedate = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(createDate);
-        this.createDate.setTime(thedate);
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        Date date = sdf.parse(createDate);
+        this.createDate = sdf.getCalendar();
 
-        this.expirationDate = new GregorianCalendar();
-        thedate = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(createDate);
-        this.expirationDate.setTime(thedate);
+        sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        date = sdf.parse(createDate);
+        this.expirationDate = sdf.getCalendar();
 
         this.pin = pin;
         this.CVV2 = CVV2;

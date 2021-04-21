@@ -26,9 +26,9 @@ abstract public class Account {
         this.IBAN = IBAN;
         this.balance = balance;
 
-        this.createDate = new GregorianCalendar();
-        Date thedate = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(createDate);
-        this.createDate.setTime(thedate);
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        Date date = sdf.parse(createDate);
+        this.createDate = sdf.getCalendar();
     }
 
     public int getID() {
