@@ -1,8 +1,8 @@
 package classes;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import classes.accounts.AccountStatement;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -52,7 +52,7 @@ public class ClientService {
                 System.out.println(client.toString());
             }
         }
-        public Client getClientById (int id)
+        public static Client getClientById (int id)
         {
             for ( Client client : clients)
             {
@@ -63,7 +63,7 @@ public class ClientService {
             return null;
         }
 
-        public Client getClient (Client c )
+        public static Client getClient (Client c )
         {
             for ( Client client : clients)
             {
@@ -75,15 +75,49 @@ public class ClientService {
             return null;
         }
 
-        public ArrayList <Client> addClient (Client client)
+        public static ArrayList <Client> addClient (Client client)
         {
             clients.add(client);
+            write();
             return clients;
+            
         }
 
-        public ArrayList<Client> deleteClient (ArrayList<Client> clients, Client client)
+        public static void write()
+        {
+            for (Client client : clients)
+            {
+                try (PrintWriter writer = new PrintWriter(new File("src/files/Clients.csv"))) {
+                    System.out.println(client.getID());
+                    String data = String.valueOf(client.getID()) + ',' +
+                            client.getFirstName() + ',' +
+                            client.getLastName() + ',' +
+                            client.getEmail() + ',' +
+                            client.getAddress() + ',' +
+                            client.getPhoneNumber() + ',' +
+                            client.getPersonalCodeNumber() + ',';
+
+                     for( Integer id: client.getAccounts())
+                     {
+                         data += String.valueOf(id) + " ";
+                     }
+                     data += '\n';
+
+
+                    writer.write(data);
+                    System.out.println("done!");
+
+                } catch (FileNotFoundException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+
+       
+        public static ArrayList<Client> deleteClient (ArrayList<Client> clients, Client client)
         {
             clients.remove(client);
+            write();
             return clients;
         }
 

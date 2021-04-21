@@ -1,7 +1,6 @@
 package classes.accounts;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.ArrayList;
 
 public class AccountService {
@@ -18,9 +17,10 @@ public class AccountService {
                     String[] data = line.split(splitBy);
                     Integer id = Integer.parseInt(data[0]);
                     String IBAN = data[1];
-                    Double balance = Double.parseDouble(data[3]);
-                    String date = data[4];
-                    Integer IdCard = Integer.parseInt(data[5]);
+                    Double balance = Double.parseDouble(data[2]);
+
+                    String date = data[3];
+                    Integer IdCard = Integer.parseInt(data[4]);
                     Account a = new Current(id, IBAN, balance, date, IdCard);
                     accounts.add(a);
                 }
@@ -34,9 +34,9 @@ public class AccountService {
                     String[] data = line.split(splitBy);
                     Integer id = Integer.parseInt(data[0]);
                     String IBAN = data[1];
-                    Double balance = Double.parseDouble(data[3]);
-                    String date = data[4];
-                    Integer period = Integer.parseInt(data[5]);
+                    Double balance = Double.parseDouble(data[2]);
+                    String date = data[3];
+                    Integer period = Integer.parseInt(data[4]);
                     Account a = new Deposit(id, IBAN, balance, date, period);
                     accounts.add(a);
                 }
@@ -55,7 +55,45 @@ public class AccountService {
             System.out.println(account.toString());
         }
     }
+    public static void write()
+    {
+        for (Account account : accounts)
+        {
+            if(account instanceof Current ){
+                try (PrintWriter writer = new PrintWriter(new File("src/files/CurrentAccounts.csv"))) {
 
+                    String data = String.valueOf(account.getID()) + ',' +
+                            account.getIBAN() + ',' +
+                            account.getBalance() + ',' +
+                            account.getCreateDate().toString() + ',' +
+                            ((Current) account).getIdCard() + '\n';
+
+                    writer.write(data);
+                    System.out.println("done!");
+
+                } catch (FileNotFoundException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            else {
+                try (PrintWriter writer = new PrintWriter(new File("src/files/DepositAccounts.csv"))) {
+
+                    String data = String.valueOf(account.getID()) + ',' +
+                            account.getIBAN() + ',' +
+                            account.getBalance() + ',' +
+                            account.getCreateDate().toString() + ',' +
+                            ((Deposit) account).getPeriod() + '\n';
+
+                    writer.write(data);
+                    System.out.println("done!");
+
+                } catch (FileNotFoundException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        }
+    }
     public static void getAccount (Account a)
     {
         for ( Account account : accounts)
@@ -81,12 +119,14 @@ public class AccountService {
     public static ArrayList<Account> addAccount (Account account)
     {
         accounts.add(account);
+        write();
         return accounts;
     }
 
     public static ArrayList<Account> deleteAccount (Account account)
     {
         accounts.remove(account);
+        write();
         return accounts;
     }
 
