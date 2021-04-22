@@ -1,21 +1,27 @@
 package classes.accounts;
 
+import classes.transactions.Transaction;
+import classes.transactions.TransactionService;
+
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Objects;
 
 public class Deposit extends Account {
 
     private int period;
+    private double db;
+
     public Deposit(double balance, Integer idClient, int period)
     {
         super(balance, idClient);
         this.period = period;
+        this.db = 0.2 * period;
     }
 
-    public Deposit(int ID, String IBAN, double balance, Integer idClient, String createDate, int period) throws ParseException {
+    public Deposit(int ID, String IBAN, double balance, Integer idClient, String createDate, int period, double db) throws ParseException {
         super(ID, IBAN, balance, createDate, idClient);
         this.period = period;
+        this.db = db;
     }
     public int getPeriod() {
         return period;
@@ -23,6 +29,14 @@ public class Deposit extends Account {
 
     public void setPeriod(int period) {
         this.period = period;
+    }
+
+    public double getDb() {
+        return db;
+    }
+
+    public void setDb(double db) {
+        this.db = db;
     }
 
     @Override
@@ -33,6 +47,7 @@ public class Deposit extends Account {
                 "Balance = " + balance + '\n' +
                 "Created at: " + createDate.getTime() + '\n' +
                 "Period: " + period + " months\n" +
+                "Dobanda: " + db + '\n' +
                 "Client Id: " + IdClient + '\n';
     }
 
@@ -51,12 +66,17 @@ public class Deposit extends Account {
     }
 
     @Override
-    public void withdraw(double amount) {
-
+    public void withdraw(double amount) throws ParseException {
+        this.balance -= amount;
+        Transaction t = new Transaction(ID, -1, amount);
+        TransactionService.addTransaction(t);
     }
 
     @Override
-    public void deposit(double amount) {
+    public void deposit(double amount) throws ParseException {
+        this.balance += amount;
+        Transaction t = new Transaction(-1, ID, amount);
+        TransactionService.addTransaction(t);
 
     }
 

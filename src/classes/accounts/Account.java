@@ -99,7 +99,7 @@ abstract public class Account {
         return Objects.hash(ID, IBAN, balance, createDate, IdClient);
     }
 
-    abstract public void withdraw(double amount);
-    abstract public void deposit(double amount);
+    abstract public void withdraw(double amount) throws ParseException;
+    abstract public void deposit(double amount) throws ParseException;
 
 }

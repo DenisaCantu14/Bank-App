@@ -37,7 +37,8 @@ public class AccountService {
                     Integer idOwner = Integer.parseInt(data[3]);
                     String date = data[4];
                     Integer period = Integer.parseInt(data[5]);
-                    Account a = new Deposit(id, IBAN, balance, idOwner, date, period);
+                    Double db = Double.parseDouble(data[6]);
+                    Account a = new Deposit(id, IBAN, balance, idOwner, date, period, db);
                     accounts.add(a);
                 }
             } catch (IOException e) {
@@ -85,7 +86,9 @@ public class AccountService {
                              account.getBalance() + ',' +
                              account.getIdClient() + ',' +
                              account.getCreateDate().getTime().toString() + ',' +
-                             ((Deposit) account).getPeriod() + '\n';
+                             ((Deposit) account).getPeriod() + ',' +
+                             ((Deposit) account).getDb() + '\n';
+
                      writer.write(data);
                  }
              }
