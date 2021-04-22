@@ -4,6 +4,7 @@ import classes.transactions.Transaction;
 import classes.transactions.TransactionService;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class Deposit extends Account {
@@ -23,6 +24,21 @@ public class Deposit extends Account {
         this.period = period;
         this.db = db;
     }
+    @Override
+    public double getBalance() {
+        Calendar currentDate = Calendar.getInstance();
+        if(currentDate.compareTo(createDate)%3 == 0)
+        {
+            setBalance(balance * db);
+        }
+        return balance;
+    }
+
+    @Override
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
     public int getPeriod() {
         return period;
     }
@@ -68,16 +84,15 @@ public class Deposit extends Account {
     @Override
     public void withdraw(double amount) throws ParseException {
         this.balance -= amount;
-        Transaction t = new Transaction(ID, -1, amount);
+        Transaction t = new Transaction(ID, amount);
         TransactionService.addTransaction(t);
     }
 
     @Override
     public void deposit(double amount) throws ParseException {
         this.balance += amount;
-        Transaction t = new Transaction(-1, ID, amount);
+        Transaction t = new Transaction(ID, amount);
         TransactionService.addTransaction(t);
-
     }
 
 }
