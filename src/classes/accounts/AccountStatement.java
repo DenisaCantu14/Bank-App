@@ -97,8 +97,8 @@ public class AccountStatement {
                         "IdAccount: " + idAccount + '\n' +
                         "Current balance: " + balance + '\n' +
                         "Start Date: " + startDate.getTime() + '\n' +
-                        "Create Date: " + createDate + '\n';
-
+                        "Create Date: " + createDate.getTime() + '\n'+
+                        "List of transaction: \n";
         for (int i : idTransactions) {
             afisare += TransactionService.getTransactionById(i).toString();
         }

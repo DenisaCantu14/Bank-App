@@ -1,5 +1,7 @@
 package classes.transactions;
 
+import classes.accounts.AccountService;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -77,12 +79,12 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "TRANSACTION" + '\n' +
-                "ID" + ID + '\n' +
-                "Date :" + date.getTime() + "\n\n" +
-                "SOURCE ACCOUNT: " + '\n' + sourceAccount.toString() +
-                "TARGET ACCOUNT: " + '\n' + targetAccount.toString() + '\n' +
-                "Sold: " + sold + '\n';
+        return
+                "ID: " + ID + '\n' +
+                "Date :" + date.getTime() + "\n" +
+                "SOURCE ACCOUNT: " + AccountService.getAccountById(sourceAccount).getIBAN() + '\n' +
+                "TARGET ACCOUNT: " + AccountService.getAccountById(targetAccount).getIBAN() + '\n' +
+                "Sold: " + sold + "RON\n";
     }
 
     @Override

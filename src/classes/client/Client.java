@@ -101,8 +101,7 @@ public class Client implements Comparable<Client>{
                         "Email: " + email  + '\n' +
                         "Address: " + address  + '\n' +
                         "Phone number: " + phoneNumber + '\n' +
-                        "Personal code number: " + personalCodeNumber + '\n' +
-                        "List of accounts:\n";
+                        "Personal code number: " + personalCodeNumber + '\n';
 
     }
 

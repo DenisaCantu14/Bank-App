@@ -38,6 +38,7 @@ public class TransactionService {
 
     public static void displayTransactions ()
     {
+        System.out.println("List of transactions: \n");
         for ( Transaction transaction : transactions)
         {
             System.out.println(transaction.toString());
