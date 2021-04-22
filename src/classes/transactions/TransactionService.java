@@ -1,14 +1,11 @@
 package classes.transactions;
 
-import classes.client.Client;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class TransactionService {
     public static ArrayList<Transaction> transactions = new ArrayList<>();
-
 
     public static void getTransactions() throws Exception {
         {
@@ -21,12 +18,20 @@ public class TransactionService {
 
                     int id = Integer.parseInt(data[0]);
                     String date = data[1];
-                    int sourceId = Integer.parseInt(data[2]);
-                    int tragetId = Integer.parseInt(data[3]);
-                    double sold = Double.parseDouble(data[4]);
+                    double sold = Double.parseDouble(data[2]);
+                    int sourceId = Integer.parseInt(data[3]);
+                    if(data.length == 5)
+                    {
+                        int tragetId = Integer.parseInt(data[4]);
+                        Transaction t = new Transfer(id, date, sourceId, tragetId, sold);
+                        transactions.add(t);
+                    }
+                    else
+                    {
+                        Transaction t = new Transaction(id, date, sourceId, sold);
+                        transactions.add(t);
+                    }
 
-                    Transaction t = new Transaction(id, date, sourceId, tragetId, sold);
-                    transactions.add(t);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -44,9 +49,13 @@ public class TransactionService {
 
                 data += String.valueOf(transaction.getID()) + ',' +
                         transaction.getDate().getTime() + ',' +
-                        transaction.getSourceAccount() + ',' +
-                        transaction.getTargetAccount() + ',' +
-                        transaction.getSold() + '\n';
+                        transaction.getSold() + ',' +
+                        transaction.getSourceAccount();
+                if(transaction instanceof Transfer)
+                {
+                    data += ',' + ((Transfer) transaction).getTargetAccount();
+                }
+                data += '\n';
             }
             writer.write(data);
         }
@@ -81,7 +90,7 @@ public class TransactionService {
         for ( Transaction transaction : transactions)
         {
 
-            if ( (transaction.getSourceAccount() == id || transaction.getTargetAccount() == id) && transaction.getDate().compareTo(startDate) > 0)  {
+            if ( (transaction.getSourceAccount() == id) && transaction.getDate().compareTo(startDate) > 0)  {
                 accountTransactions.add(transaction.getID());
             }
         }
