@@ -59,16 +59,16 @@ public class VisaCard
         this.cardNumber = cardNumber;
     }
 
-    public Date getCreateDate() {
-        return createDate.getTime();
+    public Calendar getCreateDate() {
+        return createDate;
     }
 
     public void setCreateDate(Calendar createDate) {
         this.createDate = createDate;
     }
 
-    public Date getExpirationDate() {
-        return expirationDate.getTime();
+    public Calendar getExpirationDate() {
+        return expirationDate;
     }
 
     public void setExpirationDate(Calendar expirationDate) {

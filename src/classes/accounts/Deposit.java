@@ -13,8 +13,8 @@ public class Deposit extends Account {
         this.period = period;
     }
 
-    public Deposit(int ID, String IBAN, double balance, Integer idClient, String createDate, int period, Integer statementId) throws ParseException {
-        super(ID, IBAN, balance, createDate, idClient, statementId);
+    public Deposit(int ID, String IBAN, double balance, Integer idClient, String createDate, int period) throws ParseException {
+        super(ID, IBAN, balance, createDate, idClient);
         this.period = period;
     }
     public int getPeriod() {

@@ -12,7 +12,7 @@ abstract public class Account {
     protected double balance;
     protected Calendar createDate;
     protected Integer IdClient;
-    protected Integer statementId;
+
 
     public Account(double balance, Integer idClient)
     {
@@ -23,7 +23,7 @@ abstract public class Account {
         this.IdClient = idClient;
     }
 
-    public Account(int ID, String IBAN, double balance, String  createDate, Integer idClient, Integer statementId) throws ParseException {
+    public Account(int ID, String IBAN, double balance, String  createDate, Integer idClient) throws ParseException {
         this.ID = ID;
         nrAccounts ++;
         this.IBAN = IBAN;
@@ -33,7 +33,6 @@ abstract public class Account {
         Date date = sdf.parse(createDate);
         this.createDate = sdf.getCalendar();
         this.IdClient = idClient;
-        this.statementId = statementId;
     }
 
     public int getID() {
@@ -60,8 +59,8 @@ abstract public class Account {
         this.balance = balance;
     }
 
-    public Date getCreateDate() {
-        return createDate.getTime();
+    public Calendar getCreateDate() {
+        return createDate;
     }
 
     public void setCreateDate(Calendar createDate) {
@@ -76,13 +75,6 @@ abstract public class Account {
         IdClient = idClient;
     }
 
-    public Integer getStatementId() {
-        return statementId;
-    }
-
-    public void setStatementId(Integer statementId) {
-        this.statementId = statementId;
-    }
 
     @Override
     public String toString() {
@@ -91,8 +83,7 @@ abstract public class Account {
                 "IBAN: " + IBAN + '\n' +
                 "Balance: " + balance + '\n' +
                 "Create Date: " + createDate.getTime() +
-                "Client Id: " + IdClient +
-                "Statement ID: " + statementId + '\n';
+                "Client Id: " + IdClient + '\n';
     }
 
     @Override
@@ -100,12 +91,12 @@ abstract public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return ID == account.ID && Double.compare(account.balance, balance) == 0 && Objects.equals(IBAN, account.IBAN) && Objects.equals(createDate, account.createDate) && Objects.equals(IdClient, account.IdClient) && Objects.equals(statementId, account.statementId);
+        return ID == account.ID && Double.compare(account.balance, balance) == 0 && Objects.equals(IBAN, account.IBAN) && Objects.equals(createDate, account.createDate) && Objects.equals(IdClient, account.IdClient) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, IBAN, balance, createDate, IdClient, statementId);
+        return Objects.hash(ID, IBAN, balance, createDate, IdClient);
     }
 
     abstract public void withdraw(double amount);

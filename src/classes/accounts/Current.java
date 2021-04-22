@@ -15,9 +15,9 @@ public class Current extends Account {
         super(balance, idClient);
         this.IdCard = -1;
     }
-    public Current(int ID, String IBAN, double balance, String createDate, Integer idCard, Integer idClient, Integer statementId) throws ParseException
+    public Current(int ID, String IBAN, double balance, String createDate, Integer idCard, Integer idClient) throws ParseException
     {
-        super(ID, IBAN, balance, createDate, idClient, statementId);
+        super(ID, IBAN, balance, createDate, idClient);
         this.IdCard = idCard;
     }
 

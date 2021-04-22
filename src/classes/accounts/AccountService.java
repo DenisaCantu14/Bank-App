@@ -21,8 +21,7 @@ public class AccountService {
                     Integer idOwner = Integer.parseInt(data[3]);
                     String date = data[4];
                     Integer IdCard = Integer.parseInt(data[5]);
-                    Integer IdStatement = Integer.parseInt(data[6]);
-                    Account a = new Current(id, IBAN, balance, date, IdCard, idOwner, IdStatement);
+                    Account a = new Current(id, IBAN, balance, date, IdCard, idOwner);
                     accounts.add(a);
                 }
             } catch (IOException e) {
@@ -39,8 +38,7 @@ public class AccountService {
                     Integer idOwner = Integer.parseInt(data[3]);
                     String date = data[4];
                     Integer period = Integer.parseInt(data[5]);
-                    Integer IdStatement = Integer.parseInt(data[6]);
-                    Account a = new Deposit(id, IBAN, balance, idOwner, date, period, IdStatement);
+                    Account a = new Deposit(id, IBAN, balance, idOwner, date, period);
                     accounts.add(a);
                 }
             } catch (IOException e) {
@@ -68,7 +66,7 @@ public class AccountService {
                     String data = String.valueOf(account.getID()) + ',' +
                             account.getIBAN() + ',' +
                             account.getBalance() + ',' +
-                            account.getCreateDate().toString() + ',' +
+                            account.getCreateDate().getTime().toString() + ',' +
                             ((Current) account).getIdCard() + '\n';
 
                     writer.write(data);
@@ -85,7 +83,7 @@ public class AccountService {
                     String data = String.valueOf(account.getID()) + ',' +
                             account.getIBAN() + ',' +
                             account.getBalance() + ',' +
-                            account.getCreateDate().toString() + ',' +
+                            account.getCreateDate().getTime().toString() + ',' +
                             ((Deposit) account).getPeriod() + '\n';
 
                     writer.write(data);
