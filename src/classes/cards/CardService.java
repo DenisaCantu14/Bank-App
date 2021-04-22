@@ -23,7 +23,7 @@ public class CardService {
                     String expirationDate = data[3];
                     String pin = data[4];
                     String CVV2 = data[5];
-                    int idAccount = Integer.parseInt(data[0]);
+                    int idAccount = Integer.parseInt(data[6]);
                     VisaCard v = new VisaCard(id, cardNumber, createDate, expirationDate, pin, CVV2, idAccount);
                     cards.add(v);
                 }
@@ -55,14 +55,13 @@ public class CardService {
         return null;
     }
 
-    public static VisaCard getCard (VisaCard c )
+    public static VisaCard getCard (String number , String pin)
     {
         for ( VisaCard card : cards)
         {
-            if ( card.equals(c) ) {
+            if ( card.getCardNumber().equals(number) && card.getPin().equals(pin)) {
                 return card;
             }
-
         }
         return null;
     }

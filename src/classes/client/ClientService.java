@@ -55,6 +55,16 @@ public class ClientService {
             return null;
         }
 
+    public static Client getClientByCnp (String CNP)
+    {
+        for ( Client client : clients)
+        {
+            if ( client.getPersonalCodeNumber() == CNP) {
+                return client;
+            }
+        }
+        return null;
+    }
 
         public static ArrayList <Client> addClient (Client client)
         {

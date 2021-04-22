@@ -100,16 +100,15 @@ public class AccountService {
 
     }
 
-    public static void getAccount (Account a)
+    public static Account getAccountByClientId (Integer id)
     {
         for ( Account account : accounts)
         {
-            if ( account.equals(a) ) {
-                System.out.println("The account is: ");
-                System.out.println(account.toString());
-                break;
+            if ( account.getIdClient().equals(id) ) {
+                return account;
             }
         }
+        return null;
     }
     public static Account getAccountById (int id)
     {
