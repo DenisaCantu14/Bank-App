@@ -18,10 +18,11 @@ public class AccountService {
                     Integer id = Integer.parseInt(data[0]);
                     String IBAN = data[1];
                     Double balance = Double.parseDouble(data[2]);
-
-                    String date = data[3];
-                    Integer IdCard = Integer.parseInt(data[4]);
-                    Account a = new Current(id, IBAN, balance, date, IdCard);
+                    Integer idOwner = Integer.parseInt(data[3]);
+                    String date = data[4];
+                    Integer IdCard = Integer.parseInt(data[5]);
+                    Integer IdStatement = Integer.parseInt(data[6]);
+                    Account a = new Current(id, IBAN, balance, date, IdCard, idOwner, IdStatement);
                     accounts.add(a);
                 }
             } catch (IOException e) {
@@ -35,9 +36,11 @@ public class AccountService {
                     Integer id = Integer.parseInt(data[0]);
                     String IBAN = data[1];
                     Double balance = Double.parseDouble(data[2]);
-                    String date = data[3];
-                    Integer period = Integer.parseInt(data[4]);
-                    Account a = new Deposit(id, IBAN, balance, date, period);
+                    Integer idOwner = Integer.parseInt(data[3]);
+                    String date = data[4];
+                    Integer period = Integer.parseInt(data[5]);
+                    Integer IdStatement = Integer.parseInt(data[6]);
+                    Account a = new Deposit(id, IBAN, balance, idOwner, date, period, IdStatement);
                     accounts.add(a);
                 }
             } catch (IOException e) {

@@ -1,6 +1,4 @@
-package classes;
-
-import classes.accounts.AccountStatement;
+package classes.client;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -26,13 +24,7 @@ public class ClientService {
                         String address = data[4];
                         String phoneNumber = data[5];
                         String personalCode = data[6];
-                        String [] accountsIds = data[7].split(" ");
-                        ArrayList<Integer> ids = new ArrayList<>();
-                        for(String s : accountsIds)
-                        {
-                            ids.add(Integer.parseInt(s));
-                        }
-                        Client c = new Client(id, firstName, lastName, email, address, phoneNumber, personalCode, ids);
+                        Client c = new Client(id, firstName, lastName, email, address, phoneNumber, personalCode);
                         clients.add(c);
                     }
                 } catch (IOException e) {
@@ -63,17 +55,6 @@ public class ClientService {
             return null;
         }
 
-        public static Client getClient (Client c )
-        {
-            for ( Client client : clients)
-            {
-                if ( client.equals(c) ) {
-                    return client;
-                }
-
-            }
-            return null;
-        }
 
         public static ArrayList <Client> addClient (Client client)
         {
@@ -97,13 +78,6 @@ public class ClientService {
                             client.getPhoneNumber() + ',' +
                             client.getPersonalCodeNumber() + ',';
 
-                     for( Integer id: client.getAccounts())
-                     {
-                         data += String.valueOf(id) + " ";
-                     }
-                     data += '\n';
-
-
                     writer.write(data);
                     System.out.println("done!");
 
@@ -114,7 +88,7 @@ public class ClientService {
         }
 
        
-        public static ArrayList<Client> deleteClient (ArrayList<Client> clients, Client client)
+        public static ArrayList<Client> deleteClient (Client client)
         {
             clients.remove(client);
             write();
