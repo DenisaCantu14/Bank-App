@@ -23,9 +23,12 @@ public class AccountStatementService {
                     double balance = Double.parseDouble(data[4]);
                     String [] ids = data[5].split(" ");
                     ArrayList<Integer> idTransactions = new ArrayList<>();
-                    for(String i : ids)
+
                     {
-                        idTransactions.add(Integer.parseInt(i));
+                        for (String i : ids) {
+                            if(i != "")
+                                idTransactions.add(Integer.parseInt(i));
+                        }
                     }
 
                     AccountStatement ac = new AccountStatement(id, idAccount, startDate, createDate, balance, idTransactions);
@@ -70,28 +73,26 @@ public class AccountStatementService {
 
     public static void write()
     {
-        for (AccountStatement statement : statements)
-        {
-            try (PrintWriter writer = new PrintWriter(new File("src/files/Statements.csv"))) {
-
-                String data = String.valueOf(statement.getID()) + ',' +
+        String data = "";
+        try (PrintWriter writer = new PrintWriter(new File("src/files/Statements.csv"))) {
+            for (AccountStatement statement : statements) {
+                data += String.valueOf(statement.getID()) + ',' +
                         statement.getIdAccount() + ',' +
                         statement.getStartDate().getTime() + ',' +
                         statement.getCreateDate().getTime() + ',' +
-                        statement.getBalance() ;
-                for( int id : statement.getIdTransactions())
-                {
-                    data += ',' + id;
+                        statement.getBalance() + ',';
+                for (Integer id : statement.getIdTransactions()) {
+                    data += id.toString() + ' ';
                 }
+                data += " \n";
 
-                writer.write(data);
-                System.out.println("done!");
-
-            } catch (FileNotFoundException e) {
+            }
+            writer.write(data);
+        }
+            catch (FileNotFoundException e) {
                 System.out.println(e.getMessage());
             }
         }
-    }
 
 
     public static ArrayList<AccountStatement> deleteAccountStatement (AccountStatement statement)

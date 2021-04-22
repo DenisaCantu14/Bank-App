@@ -20,8 +20,7 @@ public class AccountService {
                     Double balance = Double.parseDouble(data[2]);
                     Integer idOwner = Integer.parseInt(data[3]);
                     String date = data[4];
-                    Integer IdCard = Integer.parseInt(data[5]);
-                    Account a = new Current(id, IBAN, balance, date, IdCard, idOwner);
+                    Account a = new Current(id, IBAN, balance, date, idOwner);
                     accounts.add(a);
                 }
             } catch (IOException e) {
@@ -56,45 +55,48 @@ public class AccountService {
             System.out.println(account.toString());
         }
     }
+
     public static void write()
     {
-        for (Account account : accounts)
+        String data = "";
+        try (PrintWriter writer = new PrintWriter(new File("src/files/CurrentAccounts.csv")))
         {
-            if(account instanceof Current ){
-                try (PrintWriter writer = new PrintWriter(new File("src/files/CurrentAccounts.csv"))) {
-
-                    String data = String.valueOf(account.getID()) + ',' +
+            for (Account account : accounts) {
+                if (account instanceof Current) {
+                    data += String.valueOf(account.getID()) + ',' +
                             account.getIBAN() + ',' +
                             account.getBalance() + ',' +
-                            account.getCreateDate().getTime().toString() + ',' +
-                            ((Current) account).getIdCard() + '\n';
-
-                    writer.write(data);
-                    System.out.println("done!");
-
-                } catch (FileNotFoundException e) {
-                    System.out.println(e.getMessage());
+                            account.getIdClient() + ',' +
+                            account.getCreateDate().getTime().toString() + '\n';
                 }
             }
-
-            else {
-                try (PrintWriter writer = new PrintWriter(new File("src/files/DepositAccounts.csv"))) {
-
-                    String data = String.valueOf(account.getID()) + ',' +
-                            account.getIBAN() + ',' +
-                            account.getBalance() + ',' +
-                            account.getCreateDate().getTime().toString() + ',' +
-                            ((Deposit) account).getPeriod() + '\n';
-
-                    writer.write(data);
-                    System.out.println("done!");
-
-                } catch (FileNotFoundException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
+            writer.write(data);
         }
+        catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+
+         data = "";
+         try (PrintWriter writer = new PrintWriter(new File("src/files/DepositAccounts.csv"))) {
+             for (Account account : accounts) {
+                 if (account instanceof Deposit) {
+                     data = String.valueOf(account.getID()) + ',' +
+                             account.getIBAN() + ',' +
+                             account.getBalance() + ',' +
+                             account.getIdClient() + ',' +
+                             account.getCreateDate().getTime().toString() + ',' +
+                             ((Deposit) account).getPeriod() + '\n';
+                     writer.write(data);
+                 }
+             }
+         }
+         catch (FileNotFoundException e)
+         {
+             System.out.println(e.getMessage());
+         }
+
     }
+
     public static void getAccount (Account a)
     {
         for ( Account account : accounts)

@@ -58,6 +58,7 @@ public class ClientService {
 
         public static ArrayList <Client> addClient (Client client)
         {
+            System.out.println("heeei");
             clients.add(client);
             write();
             return clients;
@@ -66,25 +67,24 @@ public class ClientService {
 
         public static void write()
         {
-            for (Client client : clients)
+            String data = "";
+            try (PrintWriter writer = new PrintWriter(new File("src/files/Clients.csv")))
             {
-                try (PrintWriter writer = new PrintWriter(new File("src/files/Clients.csv"))) {
-                    System.out.println(client.getID());
-                    String data = String.valueOf(client.getID()) + ',' +
+                for (Client client : clients) {
+
+                    data += String.valueOf(client.getID()) + ',' +
                             client.getFirstName() + ',' +
                             client.getLastName() + ',' +
                             client.getEmail() + ',' +
                             client.getAddress() + ',' +
                             client.getPhoneNumber() + ',' +
-                            client.getPersonalCodeNumber() + ',';
-
-                    writer.write(data);
-                    System.out.println("done!");
-
-                } catch (FileNotFoundException e) {
+                            client.getPersonalCodeNumber() + '\n';
+                }
+                writer.write(data);
+            }
+            catch (FileNotFoundException e) {
                     System.out.println(e.getMessage());
                 }
-            }
         }
 
        

@@ -1,8 +1,8 @@
 package classes.transactions;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import classes.client.Client;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -35,7 +35,25 @@ public class TransactionService {
         }
     }
 
+    public static void write()
+    {
+        String data = "";
+        try (PrintWriter writer = new PrintWriter(new File("src/files/Transactions.csv")))
+        {
+            for (Transaction transaction : transactions) {
 
+                data += String.valueOf(transaction.getID()) + ',' +
+                        transaction.getDate().getTime() + ',' +
+                        transaction.getSourceAccount() + ',' +
+                        transaction.getTargetAccount() + ',' +
+                        transaction.getSold() + '\n';
+            }
+            writer.write(data);
+        }
+        catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     public static void displayTransactions ()
     {
         System.out.println("List of transactions: \n");
@@ -73,12 +91,14 @@ public class TransactionService {
     public static ArrayList<Transaction> addTransaction (Transaction transaction)
     {
         transactions.add(transaction);
+        write();
         return transactions;
     }
 
     public static ArrayList<Transaction> deleteTransaction (Transaction transaction)
     {
         transactions.remove(transaction);
+        write();
         return transactions;
     }
 }

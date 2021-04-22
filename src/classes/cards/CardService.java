@@ -23,8 +23,8 @@ public class CardService {
                     String expirationDate = data[3];
                     String pin = data[4];
                     String CVV2 = data[5];
-
-                    VisaCard v = new VisaCard(id, cardNumber, createDate, expirationDate, pin, CVV2);
+                    int idAccount = Integer.parseInt(data[0]);
+                    VisaCard v = new VisaCard(id, cardNumber, createDate, expirationDate, pin, CVV2, idAccount);
                     cards.add(v);
                 }
             } catch (IOException e) {
@@ -55,7 +55,7 @@ public class CardService {
         return null;
     }
 
-    public VisaCard getCard (VisaCard c )
+    public static VisaCard getCard (VisaCard c )
     {
         for ( VisaCard card : cards)
         {
@@ -66,36 +66,36 @@ public class CardService {
         }
         return null;
     }
+
     public static void write()
     {
-        for (VisaCard card : cards)
-        {
-            try (PrintWriter writer = new PrintWriter(new File("src/files/Cards.csv"))) {
-
-                String data = String.valueOf(card.getID()) + ',' +
+        String data = "";
+        try (PrintWriter writer = new PrintWriter(new File("src/files/Cards.csv"))) {
+            for (VisaCard card : cards) {
+                data += String.valueOf(card.getID()) + ',' +
                         card.getCardNumber() + ',' +
-                        card.getCreateDate() + ',' +
-                        card.getExpirationDate() + ',' +
+                        card.getCreateDate().getTime() + ',' +
+                        card.getExpirationDate().getTime() + ',' +
                         card.getPin() + ',' +
-                        card.getCVV2() + ',' + '\n';
-
-                writer.write(data);
-                System.out.println("done!");
-
-            } catch (FileNotFoundException e) {
-                System.out.println(e.getMessage());
+                        card.getCVV2() + ',' +
+                        card.getIdAccount() + '\n';
             }
+            writer.write(data);
         }
+        catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+            }
     }
 
-    public ArrayList <VisaCard> addCard (VisaCard card)
+
+    public static ArrayList <VisaCard> addCard (VisaCard card)
     {
         cards.add(card);
         write();
         return cards;
     }
 
-    public ArrayList<VisaCard> deleteCard (ArrayList<VisaCard> cards, VisaCard card)
+    public static ArrayList<VisaCard> deleteCard (VisaCard card)
     {
         cards.remove(card);
         write();
