@@ -10,14 +10,14 @@ public class Current extends Account {
 
     private Integer IdCard;
     
-    public Current(double balance)
+    public Current(double balance, Integer idClient)
     {
-        super(balance);
+        super(balance, idClient);
         this.IdCard = -1;
     }
-    public Current(int ID, String IBAN, double balance, String createDate, Integer idCard) throws ParseException
+    public Current(int ID, String IBAN, double balance, String createDate, Integer idCard, Integer idClient, Integer statementId) throws ParseException
     {
-        super(ID, IBAN, balance, createDate);
+        super(ID, IBAN, balance, createDate, idClient, statementId);
         this.IdCard = idCard;
     }
 
@@ -36,7 +36,8 @@ public class Current extends Account {
                 "ID Account: " + ID + '\n' +
                 "IBAN: " + IBAN + '\n' +
                 "Balance: " + balance + '\n' +
-                "Created at: " + createDate.getTime() + '\n';
+                "Created at: " + createDate.getTime() +
+                "Client Id: " + IdClient + '\n';
         VisaCard v = CardService.getCardById(IdCard);
         afisare += v.toString();
         return afisare;
@@ -65,8 +66,4 @@ public class Current extends Account {
         this.balance += amount;
 
     }
-
-
-
-
 }

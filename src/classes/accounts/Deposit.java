@@ -7,14 +7,14 @@ import java.util.Objects;
 public class Deposit extends Account {
 
     private int period;
-    public Deposit(double balance, int period)
+    public Deposit(double balance, Integer idClient, int period)
     {
-        super(balance);
+        super(balance, idClient);
         this.period = period;
     }
 
-    public Deposit(int ID, String IBAN, double balance, String createDate, int period) throws ParseException {
-        super(ID, IBAN, balance, createDate);
+    public Deposit(int ID, String IBAN, double balance, Integer idClient, String createDate, int period, Integer statementId) throws ParseException {
+        super(ID, IBAN, balance, createDate, idClient, statementId);
         this.period = period;
     }
     public int getPeriod() {
@@ -32,7 +32,8 @@ public class Deposit extends Account {
                 "IBAN: " + IBAN + '\n' +
                 "Balance = " + balance + '\n' +
                 "Created at: " + createDate.getTime() + '\n' +
-                "Period: " + period + " months\n";
+                "Period: " + period + " months\n" +
+                "Client Id: " + IdClient + '\n';
     }
 
     @Override

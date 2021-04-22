@@ -1,7 +1,5 @@
 package classes.cards;
 
-import classes.Client;
-
 import java.io.*;
 import java.util.ArrayList;
 

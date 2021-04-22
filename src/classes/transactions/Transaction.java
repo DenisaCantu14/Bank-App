@@ -1,6 +1,4 @@
-package classes;
-
-import classes.accounts.Account;
+package classes.transactions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,8 +43,8 @@ public class Transaction {
         this.ID = ID;
     }
 
-    public Date getDate() {
-        return date.getTime();
+    public Calendar getDate() {
+        return date;
     }
 
     public void setDate(Calendar date) {

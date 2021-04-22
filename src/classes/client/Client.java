@@ -1,9 +1,5 @@
-package classes;
+package classes.client;
 
-import classes.accounts.Account;
-import classes.accounts.AccountService;
-
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Client implements Comparable<Client>{
@@ -15,7 +11,7 @@ public class Client implements Comparable<Client>{
     private String address;
     private String phoneNumber;
     private String personalCodeNumber;
-    private ArrayList<Integer> accounts;
+
 
     public Client(String firstName, String lastName, String email, String address, String phoneNumber, String personalCodeNumber)
     {
@@ -26,9 +22,8 @@ public class Client implements Comparable<Client>{
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.personalCodeNumber = personalCodeNumber;
-        this.accounts = new ArrayList<>();
     }
-    public Client(int ID, String firstName, String lastName, String email, String address, String phoneNumber, String personalCodeNumber, ArrayList<Integer> accounts)
+    public Client(int ID, String firstName, String lastName, String email, String address, String phoneNumber, String personalCodeNumber)
     {
         this.ID = ID;
         nrClients++;
@@ -38,7 +33,6 @@ public class Client implements Comparable<Client>{
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.personalCodeNumber = personalCodeNumber;
-        this.accounts = accounts;
     }
 
     public int getID() {
@@ -97,17 +91,10 @@ public class Client implements Comparable<Client>{
         this.personalCodeNumber = personalCodeNumber;
     }
 
-    public ArrayList<Integer> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(ArrayList<Integer> accounts) {
-        this.accounts = accounts;
-    }
 
     @Override
     public String toString() {
-        String afisare =
+                return
                         "ID Client " + ID + '\n' +
                         "First name: " + firstName  + '\n' +
                         "Last name: " + lastName  + '\n' +
@@ -116,13 +103,7 @@ public class Client implements Comparable<Client>{
                         "Phone number: " + phoneNumber + '\n' +
                         "Personal code number: " + personalCodeNumber + '\n' +
                         "List of accounts:\n";
-        for (Integer id : accounts)
-        {
-            Account a = AccountService.getAccountById(id);
 
-            afisare += a.toString() + " ";
-        }
-        return  afisare;
     }
 
     @Override
@@ -130,12 +111,12 @@ public class Client implements Comparable<Client>{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
-        return ID == client.ID && Objects.equals(firstName, client.firstName) && Objects.equals(lastName, client.lastName) && Objects.equals(email, client.email) && Objects.equals(address, client.address) && Objects.equals(phoneNumber, client.phoneNumber) && Objects.equals(personalCodeNumber, client.personalCodeNumber) && Objects.equals(accounts, client.accounts);
+        return ID == client.ID && Objects.equals(firstName, client.firstName) && Objects.equals(lastName, client.lastName) && Objects.equals(email, client.email) && Objects.equals(address, client.address) && Objects.equals(phoneNumber, client.phoneNumber) && Objects.equals(personalCodeNumber, client.personalCodeNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, firstName, lastName, email, address, phoneNumber, personalCodeNumber, accounts);
+        return Objects.hash(ID, firstName, lastName, email, address, phoneNumber, personalCodeNumber);
     }
 
     @Override
