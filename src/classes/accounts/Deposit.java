@@ -2,7 +2,6 @@ package classes.accounts;
 
 import classes.transactions.Transaction;
 import classes.transactions.TransactionService;
-
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Objects;
@@ -81,12 +80,6 @@ public class Deposit extends Account {
         return Objects.hash(super.hashCode(), period);
     }
 
-    @Override
-    public void withdraw(double amount) throws ParseException {
-        this.balance -= amount;
-        Transaction t = new Transaction(ID, amount);
-        TransactionService.addTransaction(t);
-    }
 
     @Override
     public void deposit(double amount) throws ParseException {

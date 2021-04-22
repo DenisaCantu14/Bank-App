@@ -28,14 +28,11 @@ public class Current extends Account {
                 "Client Id: " + IdClient + '\n';
     }
 
-
-    @Override
     public void withdraw(double amount) throws ParseException {
         this.balance -= amount;
         Transaction t = new Transaction(ID, amount);
         TransactionService.addTransaction(t);
     }
-
     @Override
     public void deposit(double amount) throws ParseException {
         this.balance += amount;
