@@ -11,29 +11,26 @@ import java.util.Objects;
 
 public class Transaction {
 
-    public static int nrTransactions = 0;
-    private int ID;
-    private Calendar date;
-    private Integer sourceAccount;
-    private Integer targetAccount;
-    private double sold;
+    protected static int nrTransactions = 0;
+    protected int ID;
+    protected Calendar date;
+    protected Integer sourceAccount;
+    protected double sold;
 
-    public Transaction(Integer sourceAccount, Integer targetAccount, double sold) throws ParseException {
+    public Transaction(Integer sourceAccount, double sold) throws ParseException {
         this.ID = ++nrTransactions;
         this.date = Calendar.getInstance();
         this.sourceAccount = sourceAccount;
-        this.targetAccount = targetAccount;
         this.sold = sold;
     }
 
-    public Transaction(Integer ID, String  date, Integer sourceAccount, Integer targetAccount, double sold) throws ParseException {
+    public Transaction(Integer ID, String  date, Integer sourceAccount, double sold) throws ParseException {
         this.ID = ID;
         nrTransactions++;
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
         Date d = sdf.parse(date);
         this.date = sdf.getCalendar();
         this.sourceAccount = sourceAccount;
-        this.targetAccount = targetAccount;
         this.sold = sold;
     }
 
@@ -61,13 +58,6 @@ public class Transaction {
         this.sourceAccount = sourceAccount;
     }
 
-    public Integer getTargetAccount() {
-        return targetAccount;
-    }
-
-    public void setTargetAccount(Integer targetAccount) {
-        this.targetAccount = targetAccount;
-    }
 
     public double getSold() {
         return sold;
@@ -83,7 +73,6 @@ public class Transaction {
                 "ID: " + ID + '\n' +
                 "Date :" + date.getTime() + "\n" +
                 "SOURCE ACCOUNT: " + AccountService.getAccountById(sourceAccount).getIBAN() + '\n' +
-                "TARGET ACCOUNT: " + AccountService.getAccountById(targetAccount).getIBAN() + '\n' +
                 "Sold: " + sold + "RON\n";
     }
 
@@ -92,11 +81,12 @@ public class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return ID == that.ID && Double.compare(that.sold, sold) == 0 && Objects.equals(date, that.date) && Objects.equals(sourceAccount, that.sourceAccount) && Objects.equals(targetAccount, that.targetAccount);
+        return ID == that.ID && Double.compare(that.sold, sold) == 0 && Objects.equals(date, that.date) && Objects.equals(sourceAccount, that.sourceAccount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, date, sourceAccount, targetAccount, sold);
+        return Objects.hash(ID, date, sourceAccount, sold);
     }
+
 }

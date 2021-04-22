@@ -32,14 +32,14 @@ public class Current extends Account {
     @Override
     public void withdraw(double amount) throws ParseException {
         this.balance -= amount;
-        Transaction t = new Transaction(ID, -1, amount);
+        Transaction t = new Transaction(ID, amount);
         TransactionService.addTransaction(t);
     }
 
     @Override
     public void deposit(double amount) throws ParseException {
         this.balance += amount;
-        Transaction t = new Transaction(-1, ID, amount);
+        Transaction t = new Transaction(ID, amount);
         TransactionService.addTransaction(t);
 
     }
