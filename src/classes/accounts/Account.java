@@ -16,7 +16,7 @@ abstract public class Account {
 
     public Account(double balance, Integer idClient)
     {
-        this.ID = nrAccounts++;
+        this.ID = ++nrAccounts;
         this.IBAN = "R012" + ID;
         this.balance = balance;
         this.createDate = Calendar.getInstance();

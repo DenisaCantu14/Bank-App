@@ -15,7 +15,7 @@ public class Client implements Comparable<Client>{
 
     public Client(String firstName, String lastName, String email, String address, String phoneNumber, String personalCodeNumber)
     {
-        this.ID = nrClients++;
+        this.ID = ++nrClients;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

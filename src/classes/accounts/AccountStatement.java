@@ -16,7 +16,7 @@ public class AccountStatement {
     private ArrayList<Integer> idTransactions;
 
     public AccountStatement(Integer idAccount, Calendar startDate) throws Exception {
-        this.ID =nrStatements++;
+        this.ID = ++nrStatements;
         this.idAccount = idAccount;
         this.balance = AccountService.getAccountById(idAccount).getBalance();
         this.startDate = startDate;
@@ -32,11 +32,11 @@ public class AccountStatement {
         this.balance = balance;
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-        Date date = sdf.parse(createDate);
+
         this.createDate = sdf.getCalendar();
 
         sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-        date = sdf.parse(startDate);
+
         this.startDate = sdf.getCalendar();
 
     }

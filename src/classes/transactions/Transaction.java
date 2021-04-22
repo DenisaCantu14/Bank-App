@@ -18,8 +18,8 @@ public class Transaction {
     private Integer targetAccount;
     private double sold;
 
-    public Transaction(String  date, Integer sourceAccount, Integer targetAccount, double sold) throws ParseException {
-        this.ID = nrTransactions++;
+    public Transaction(Integer sourceAccount, Integer targetAccount, double sold) throws ParseException {
+        this.ID = ++nrTransactions;
         this.date = Calendar.getInstance();
         this.sourceAccount = sourceAccount;
         this.targetAccount = targetAccount;
