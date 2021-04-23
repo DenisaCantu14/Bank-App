@@ -59,7 +59,7 @@ public class ClientService {
     {
         for ( Client client : clients)
         {
-            if ( client.getPersonalCodeNumber() == CNP) {
+            if ( client.getPersonalCodeNumber().equals(CNP)) {
                 return client;
             }
         }
