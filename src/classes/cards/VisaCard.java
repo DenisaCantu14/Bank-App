@@ -36,9 +36,11 @@ public class VisaCard
         this.cardNumber = cardNumber;
 
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        Date date = sdf.parse(createDate);
         this.createDate = sdf.getCalendar();
 
         sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        date = sdf.parse(expirationDate);
         this.expirationDate = sdf.getCalendar();
 
         this.pin = pin;

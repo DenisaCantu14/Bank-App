@@ -83,14 +83,14 @@ public class TransactionService {
         return null;
     }
 
-    public static ArrayList<Integer> getTransactionsByIdAccount(int id, Calendar startDate)
+    public static ArrayList<Integer> getTransactionsByIdAccount(int id, String startDate)
     {
         ArrayList<Integer> accountTransactions = new ArrayList<>();
 
         for ( Transaction transaction : transactions)
         {
 
-            if ( (transaction.getSourceAccount() == id) && transaction.getDate().compareTo(startDate) > 0)  {
+            if ( (transaction.getSourceAccount() == id) && transaction.getDate().toString().compareTo(startDate) > 0)  {
                 accountTransactions.add(transaction.getID());
             }
         }
