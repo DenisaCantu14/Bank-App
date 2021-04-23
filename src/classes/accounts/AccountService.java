@@ -120,6 +120,16 @@ public class AccountService {
         }
         return  null;
     }
+    public static Account getAccountByIban(String IBAN)
+    {
+        for ( Account account : accounts)
+        {
+            if ( account.getIBAN().equals(IBAN)) {
+                return account;
+            }
+        }
+        return  null;
+    }
 
     public static ArrayList<Account> addAccount (Account account)
     {

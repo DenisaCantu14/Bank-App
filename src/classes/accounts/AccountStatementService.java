@@ -61,6 +61,17 @@ public class AccountStatementService {
         return null;
     }
 
+    public static AccountStatement getStatementByAccountId (int id)
+    {
+        for ( AccountStatement statement : statements)
+        {
+            if ( statement.getIdAccount() == id) {
+                return statement;
+            }
+        }
+        return null;
+    }
+
 
 
     public static ArrayList <AccountStatement> addAccountStatement (AccountStatement statement)
