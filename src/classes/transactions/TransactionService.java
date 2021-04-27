@@ -1,5 +1,7 @@
 package classes.transactions;
 
+import classes.Audit;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,6 +11,8 @@ public class TransactionService {
 
     public static void getTransactions() throws Exception {
         {
+            Audit.write("getTransactions");
+
             String line = "";
             String splitBy = ",";
             try {
@@ -99,6 +103,8 @@ public class TransactionService {
 
     public static ArrayList<Transaction> addTransaction (Transaction transaction)
     {
+        Audit.write("addTransaction");
+
         transactions.add(transaction);
         write();
         return transactions;
@@ -106,6 +112,8 @@ public class TransactionService {
 
     public static ArrayList<Transaction> deleteTransaction (Transaction transaction)
     {
+        Audit.write("deleteTransaction");
+
         transactions.remove(transaction);
         write();
         return transactions;

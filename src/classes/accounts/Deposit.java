@@ -1,5 +1,6 @@
 package classes.accounts;
 
+import classes.MyException;
 import classes.transactions.Transaction;
 import classes.transactions.TransactionService;
 import java.text.ParseException;
@@ -9,26 +10,26 @@ import java.util.Objects;
 public class Deposit extends Account {
 
     private int period;
-    private double db;
+    private double gain;
 
     public Deposit(double balance, Integer idClient, int period)
     {
         super(balance, idClient);
         this.period = period;
-        this.db = 0.2 * period;
+        this.gain = 0.2 * period;
     }
 
-    public Deposit(int ID, String IBAN, double balance, Integer idClient, String createDate, int period, double db) throws ParseException {
+    public Deposit(int ID, String IBAN, double balance, Integer idClient, String createDate, int period, double gain) throws ParseException {
         super(ID, IBAN, balance, createDate, idClient);
         this.period = period;
-        this.db = db;
+        this.gain = gain;
     }
     @Override
     public double getBalance() {
         Calendar currentDate = Calendar.getInstance();
         if(currentDate.compareTo(createDate)%3 == 0)
         {
-            setBalance(balance * db);
+            setBalance(balance * gain);
         }
         return balance;
     }
@@ -46,12 +47,12 @@ public class Deposit extends Account {
         this.period = period;
     }
 
-    public double getDb() {
-        return db;
+    public double getGain() {
+        return gain;
     }
 
-    public void setDb(double db) {
-        this.db = db;
+    public void setGain(double gain) {
+        this.gain = gain;
     }
 
     @Override
@@ -62,7 +63,7 @@ public class Deposit extends Account {
                 "Balance = " + balance + '\n' +
                 "Created at: " + createDate.getTime() + '\n' +
                 "Period: " + period + " months\n" +
-                "Dobanda: " + db + '\n' +
+                "Gain: " + gain + '\n' +
                 "Client Id: " + IdClient + '\n';
     }
 
@@ -82,7 +83,7 @@ public class Deposit extends Account {
 
 
     @Override
-    public void deposit(double amount) throws ParseException {
+    public void deposit(double amount) throws MyException {
         this.balance += amount;
         Transaction t = new Transaction(ID, amount);
         TransactionService.addTransaction(t);

@@ -1,5 +1,8 @@
 package classes.accounts;
 
+import classes.Audit;
+import classes.MyException;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -11,6 +14,7 @@ public class AccountService {
         {
             String line = "";
             String splitBy = ",";
+            Audit.write("GetAccounts");
             try {
                 BufferedReader br = new BufferedReader(new FileReader("src/files/CurrentAccounts.csv"));
                 while ((line = br.readLine()) != null) {
@@ -37,8 +41,8 @@ public class AccountService {
                     Integer idOwner = Integer.parseInt(data[3]);
                     String date = data[4];
                     Integer period = Integer.parseInt(data[5]);
-                    Double db = Double.parseDouble(data[6]);
-                    Account a = new Deposit(id, IBAN, balance, idOwner, date, period, db);
+                    Double gain = Double.parseDouble(data[6]);
+                    Account a = new Deposit(id, IBAN, balance, idOwner, date, period, gain);
                     accounts.add(a);
                 }
             } catch (IOException e) {
@@ -50,6 +54,7 @@ public class AccountService {
 
     public static void displayAccounts ()
     {
+        Audit.write("DisplayAccounts");
         System.out.println("List of accounts: \n");
         for ( Account account : accounts)
         {
@@ -60,6 +65,7 @@ public class AccountService {
     public static void write()
     {
         String data = "";
+        Audit.write("");
         try (PrintWriter writer = new PrintWriter(new File("src/files/CurrentAccounts.csv")))
         {
             for (Account account : accounts) {
@@ -87,7 +93,7 @@ public class AccountService {
                              account.getIdClient() + ',' +
                              account.getCreateDate().getTime().toString() + ',' +
                              ((Deposit) account).getPeriod() + ',' +
-                             ((Deposit) account).getDb() + '\n';
+                             ((Deposit) account).getGain() + '\n';
 
                      writer.write(data);
                  }
@@ -131,8 +137,33 @@ public class AccountService {
         return  null;
     }
 
+    public static void withdraw(double amount, Integer ID) throws MyException {
+        for ( Account account : accounts)
+        {
+            if ( account.getID()==ID ) {
+                System.out.println(account.getBalance());
+                if(amount > account.getBalance())
+                {
+                    throw new MyException("Insufficient funds");
+                }
+                ((Current) account).withdraw(amount);
+            }
+        }
+        write();
+    }
+    public static void deposit(double amount, Integer ID) throws MyException {
+        for ( Account account : accounts)
+        {
+            if ( account.getID()==ID ) {
+                account.deposit(amount);
+            }
+        }
+        write();
+    }
+
     public static ArrayList<Account> addAccount (Account account)
     {
+        Audit.write("AddAccount");
         accounts.add(account);
         write();
         return accounts;
@@ -140,6 +171,7 @@ public class AccountService {
 
     public static ArrayList<Account> deleteAccount (Account account)
     {
+        Audit.write("DeleteAccount");
         accounts.remove(account);
         write();
         return accounts;

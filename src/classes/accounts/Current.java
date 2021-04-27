@@ -1,5 +1,6 @@
 package classes.accounts;
 
+import classes.MyException;
 import classes.transactions.Transaction;
 import classes.transactions.TransactionService;
 
@@ -28,13 +29,13 @@ public class Current extends Account {
                 "Client Id: " + IdClient + '\n';
     }
 
-    public void withdraw(double amount) throws ParseException {
+    public void withdraw(double amount)  {
         this.balance -= amount;
         Transaction t = new Transaction(ID, amount);
         TransactionService.addTransaction(t);
     }
     @Override
-    public void deposit(double amount) throws ParseException {
+    public void deposit(double amount)  {
         this.balance += amount;
         Transaction t = new Transaction(ID, amount);
         TransactionService.addTransaction(t);

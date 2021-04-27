@@ -1,5 +1,6 @@
 package classes.transactions;
 
+import classes.MyException;
 import classes.accounts.AccountService;
 
 import java.text.ParseException;
@@ -17,7 +18,7 @@ public class Transaction {
     protected Integer sourceAccount;
     protected double sold;
 
-    public Transaction(Integer sourceAccount, double sold) throws ParseException {
+    public Transaction(Integer sourceAccount, double sold)  {
         this.ID = ++nrTransactions;
         this.date = Calendar.getInstance();
         this.sourceAccount = sourceAccount;

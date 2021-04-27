@@ -1,5 +1,7 @@
 package classes.cards;
 
+import classes.Audit;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -10,6 +12,7 @@ public class CardService {
 
     public static void getCards() throws Exception {
         {
+            Audit.write("getCards");
             String line = "";
             String splitBy = ",";
             try {
@@ -34,40 +37,35 @@ public class CardService {
         }
     }
 
-    public static void displayCards ()
-    {
+    public static void displayCards() {
 
+        Audit.write("displayCards");
 
         System.out.println("List of cards: \n");
-        for ( VisaCard card : cards)
-        {
+        for (VisaCard card : cards) {
             System.out.println(card.toString());
         }
     }
-    public static VisaCard getCardById (int id)
-    {
-        for ( VisaCard card : cards)
-        {
-            if ( card.getID() == id) {
+
+    public static VisaCard getCardById(int id) {
+        for (VisaCard card : cards) {
+            if (card.getID() == id) {
                 return card;
             }
         }
         return null;
     }
 
-    public static VisaCard getCard (String number , String pin)
-    {
-        for ( VisaCard card : cards)
-        {
-            if ( card.getCardNumber().equals(number) && card.getPin().equals(pin)) {
+    public static VisaCard getCard(String number, String pin) {
+        for (VisaCard card : cards) {
+            if (card.getCardNumber().equals(number) && card.getPin().equals(pin)) {
                 return card;
             }
         }
         return null;
     }
 
-    public static void write()
-    {
+    public static void write() {
         String data = "";
         try (PrintWriter writer = new PrintWriter(new File("src/files/Cards.csv"))) {
             for (VisaCard card : cards) {
@@ -80,22 +78,21 @@ public class CardService {
                         card.getIdAccount() + '\n';
             }
             writer.write(data);
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
-            }
+        }
     }
 
 
-    public static ArrayList <VisaCard> addCard (VisaCard card)
-    {
+    public static ArrayList<VisaCard> addCard(VisaCard card) {
+        Audit.write("addCard");
         cards.add(card);
         write();
         return cards;
     }
 
-    public static ArrayList<VisaCard> deleteCard (VisaCard card)
-    {
+    public static ArrayList<VisaCard> deleteCard(VisaCard card) {
+        Audit.write("deleteCard");
         cards.remove(card);
         write();
         return cards;

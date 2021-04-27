@@ -1,5 +1,7 @@
 package classes.client;
 
+import classes.Audit;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -10,7 +12,10 @@ public class ClientService {
 
 
         public static void getClients() throws Exception {
+
             {
+                Audit.write("getClients");
+
                 String line = "";
                 String splitBy = ",";
                 try {
@@ -35,7 +40,10 @@ public class ClientService {
         }
 
         public static void displayClients ()
+
         {
+            Audit.write("displayClients");
+
             clients.sort(Comparator.comparing(Client::getLastName));
 
             System.out.println("List of clients: \n");
@@ -68,6 +76,8 @@ public class ClientService {
 
         public static ArrayList <Client> addClient (Client client)
         {
+            Audit.write("addClient");
+
             System.out.println("heeei");
             clients.add(client);
             write();
@@ -100,6 +110,8 @@ public class ClientService {
        
         public static ArrayList<Client> deleteClient (Client client)
         {
+            Audit.write("deleteClient");
+
             clients.remove(client);
             write();
             return clients;

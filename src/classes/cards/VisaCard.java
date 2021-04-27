@@ -23,7 +23,7 @@ public class VisaCard
         this.cardNumber = createCardNumber(12);
         this.createDate = Calendar.getInstance();
         this.expirationDate =  Calendar.getInstance();
-        expirationDate.add(Calendar.YEAR, 20);
+        expirationDate.add(Calendar.YEAR, 3);
         this.pin = pin;
         this.CVV2 = createCardNumber(4);
         this.idAccount = idAccount;
