@@ -1,12 +1,12 @@
 Clase implementate:
 
-- Bank 
 - Account (clasa abstracta)
 - Current (mosteneste din clasa Account)
 - Deposit (mosteneste din clasa Account)
 - VisaCard 
 - Client
 - Transaction
+- Transefer (mosteneste din clasa Transaction)
 - AccountStatement (extrasul de cont)
 - AccountService (clasa serviciu pentru clasa Account)
 - ClientService (clasa serviciu pentru clasa Client)
