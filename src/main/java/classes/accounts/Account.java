@@ -2,6 +2,7 @@ package classes.accounts;
 
 import classes.MyException;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -101,6 +102,6 @@ abstract public class Account {
         return Objects.hash(ID, IBAN, balance, createDate, IdClient);
     }
 
-    abstract public void deposit(double amount) throws MyException;
+    abstract public void deposit(double amount) throws MyException, SQLException;
 
 }

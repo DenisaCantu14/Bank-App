@@ -1,8 +1,10 @@
-package classes.accounts;
+package  classes.accounts;
 
 import classes.MyException;
-import classes.transactions.Transaction;
-import classes.transactions.TransactionService;
+import  classes.transactions.Transaction;
+import  classes.transactions.TransactionService;
+
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Objects;
@@ -83,7 +85,7 @@ public class Deposit extends Account {
 
 
     @Override
-    public void deposit(double amount) throws MyException {
+    public void deposit(double amount) throws MyException, SQLException {
         this.balance += amount;
         Transaction t = new Transaction(ID, amount);
         TransactionService.addTransaction(t);

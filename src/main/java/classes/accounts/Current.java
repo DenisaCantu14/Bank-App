@@ -1,9 +1,9 @@
-package classes.accounts;
+package  classes.accounts;
 
-import classes.MyException;
-import classes.transactions.Transaction;
-import classes.transactions.TransactionService;
+import  classes.transactions.Transaction;
+import  classes.transactions.TransactionService;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 
 public class Current extends Account {
@@ -29,13 +29,13 @@ public class Current extends Account {
                 "Client Id: " + IdClient + '\n';
     }
 
-    public void withdraw(double amount)  {
+    public void withdraw(double amount) throws SQLException {
         this.balance -= amount;
         Transaction t = new Transaction(ID, amount);
         TransactionService.addTransaction(t);
     }
     @Override
-    public void deposit(double amount)  {
+    public void deposit(double amount) throws SQLException {
         this.balance += amount;
         Transaction t = new Transaction(ID, amount);
         TransactionService.addTransaction(t);

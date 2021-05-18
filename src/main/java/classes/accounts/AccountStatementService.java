@@ -1,7 +1,6 @@
 package classes.accounts;
 
-import classes.Audit;
-
+import main.java.classes.Audit;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -16,7 +15,7 @@ public class AccountStatementService {
             String splitBy = ",";
             try {
 
-                BufferedReader br = new BufferedReader(new FileReader("src/files/Statements.csv"));
+                BufferedReader br = new BufferedReader(new FileReader("src/main/java/files/Statements.csv"));
                 while ((line = br.readLine()) != null) {
                     String[] data = line.split(splitBy);
                     int id = Integer.parseInt(data[0]);
@@ -81,7 +80,7 @@ public class AccountStatementService {
 
     public static void write() {
         String data = "";
-        try (PrintWriter writer = new PrintWriter(new File("src/files/Statements.csv"))) {
+        try (PrintWriter writer = new PrintWriter(new File("src/main/java/files/Statements.csv"))) {
             for (AccountStatement statement : statements) {
                 data += String.valueOf(statement.getID()) + ',' +
                         statement.getIdAccount() + ',' +

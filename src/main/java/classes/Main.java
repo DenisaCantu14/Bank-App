@@ -1,22 +1,31 @@
-import classes.MyException;
-import classes.accounts.*;
-import classes.cards.CardService;
-import classes.cards.VisaCard;
-import classes.client.Client;
-import classes.client.ClientService;
-import classes.transactions.TransactionService;
-import classes.transactions.Transfer;
+package classes;
 
+import  classes.cards.CardService;
+import  classes.cards.VisaCard;
+import  classes.client.Client;
+import  classes.client.ClientService;
+import  classes.transactions.TransactionService;
+import  classes.transactions.Transfer;
+import  classes.accounts.*;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
+
         ClientService.getClients();
+        ClientService.displayClients();
+
         TransactionService.getTransactions();
+        TransactionService.displayTransactions();
+
         AccountService.getAccounts();
+        AccountService.displayAccounts();
+
         CardService.getCards();
-        AccountStatementService.getAccountStatements();
+        CardService.displayCards();
+
+//        AccountStatementService.getAccountStatements();
 
         while (true) {
             System.out.println("MENU");
