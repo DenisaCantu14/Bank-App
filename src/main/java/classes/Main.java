@@ -1,11 +1,8 @@
 package classes;
 
-import  classes.cards.CardService;
-import  classes.cards.VisaCard;
-import  classes.client.Client;
-import  classes.client.ClientService;
-import  classes.transactions.TransactionService;
-import  classes.transactions.Transfer;
+import  classes.cards.*;
+import  classes.client.*;
+import  classes.transactions.*;
 import  classes.accounts.*;
 import java.util.Scanner;
 
@@ -16,16 +13,15 @@ public class Main {
         ClientService.getClients();
         ClientService.displayClients();
 
-        TransactionService.getTransactions();
-        TransactionService.displayTransactions();
-
         AccountService.getAccounts();
         AccountService.displayAccounts();
+
+        TransactionService.getTransactions();
+        TransactionService.displayTransactions();
 
         CardService.getCards();
         CardService.displayCards();
 
-//        AccountStatementService.getAccountStatements();
 
         while (true) {
             System.out.println("MENU");
@@ -79,7 +75,8 @@ public class Main {
                     }
                 }
 
-            } else if (option == 2) {
+            }
+            else if (option == 2) {
                 while (true) {
                     System.out.println("Enter CNP");
                     String Cnp = scanner.next();
@@ -124,7 +121,8 @@ public class Main {
                     }
                 }
 
-            } else if (option == 3) {
+            }
+            else if (option == 3) {
                 while (true) {
                     System.out.println("Enter CNP");
                     String Cnp = scanner.next();
@@ -149,12 +147,12 @@ public class Main {
                         }
                         System.out.println(date);
                         AccountStatement st = new AccountStatement(AccountId, date.toString());
-                        AccountStatementService.addAccountStatement(st);
                         System.out.println(st);
                         break;
                     }
                 }
-            } else if (option == 4) {
+            }
+            else if (option == 4) {
                 while (true) {
                     System.out.println("1.Add anew client");
                     System.out.println("2.Add a new account");

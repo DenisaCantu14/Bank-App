@@ -2,7 +2,6 @@ package  classes.client;
 
 import classes.MySqlCon;
 import main.java.classes.Audit;
-import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -88,6 +87,20 @@ public class ClientService {
             
         }
 
+        public static void updateClient(Client client) throws SQLException {
+
+            MySqlCon mySqlCon = new MySqlCon();
+            Connection connection = mySqlCon.Connection();
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE banckingapp.client SET firstname = ?, lastname= ?, email = ?, address = ?, phonenumber = ?, personalcodenumber = ? WHERE idclient = ?);");
+            preparedStatement.setString(1,client.getFirstName());
+            preparedStatement.setString(2,client.getLastName());
+            preparedStatement.setString(3,client.getEmail());
+            preparedStatement.setString(4,client.getAddress());
+            preparedStatement.setString(5,client.getPhoneNumber());
+            preparedStatement.setString(6,client.getPersonalCodeNumber());
+            preparedStatement.setInt(7,client.getID());
+            preparedStatement.execute();
+        }
 
         public static ArrayList<Client> deleteClient (Client client)
         {

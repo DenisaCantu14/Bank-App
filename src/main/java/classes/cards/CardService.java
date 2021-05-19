@@ -1,10 +1,7 @@
 package classes.cards;
 
 import classes.MySqlCon;
-import classes.client.Client;
 import  main.java.classes.Audit;
-
-import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -85,6 +82,23 @@ public class CardService {
         preparedStatement.execute();
         return cards;
     }
+
+
+    public static void updateCard(VisaCard card) throws SQLException {
+
+        MySqlCon mySqlCon = new MySqlCon();
+        Connection connection = mySqlCon.Connection();
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE banckingapp.visacard SET cardnumber = ?, createdate = ?, expirationdate = ?, pin = ?, cvv2 = ?, idaccount = ? WHERE (idvisacard = ?);");
+        preparedStatement.setString(1,card.getCardNumber());
+        preparedStatement.setDate(2, (Date) card.getCreateDate().getTime());
+        preparedStatement.setDate(3, (Date) card.getExpirationDate().getTime());
+        preparedStatement.setString(4,card.getPin());
+        preparedStatement.setString(5,card.getCVV2());
+        preparedStatement.setInt(6,card.getIdAccount());
+        preparedStatement.setInt(7,card.getID());
+        preparedStatement.execute();
+    }
+
 
     public static ArrayList<VisaCard> deleteCard(VisaCard card) {
         Audit.write("deleteCard");

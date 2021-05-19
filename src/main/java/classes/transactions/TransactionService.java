@@ -1,10 +1,7 @@
 package  classes.transactions;
 
 import classes.MySqlCon;
-import classes.client.Client;
 import  main.java.classes.Audit;
-
-import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -18,7 +15,9 @@ public class TransactionService {
             MySqlCon mySqlCon = new MySqlCon();
             Connection connection = mySqlCon.Connection();
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from transaction ");
+            ResultSet resultSet = statement.executeQuery("select *" +
+                                                             "from transaction, transfer " +
+                                                             "where idtransaction != idtransfer;");
             while (resultSet.next()){
                 Transaction transaction = new Transaction (resultSet.getInt("idtransaction"),
                         resultSet.getString("date"),
@@ -28,9 +27,9 @@ public class TransactionService {
             }
 
 
-            resultSet = statement.executeQuery("select idtransaction, date, sourceaccount, sold, targetaccount" +
+            resultSet = statement.executeQuery("select *" +
                                                     "from transaction, transfer " +
-                                                    "where idtransaction = idtransfer");
+                                                    "where idtransaction = idtransfer;");
             while (resultSet.next()){
                 Transaction transaction = new Transfer (resultSet.getInt("idtransaction"),
                         resultSet.getString("date"),
@@ -98,6 +97,7 @@ public class TransactionService {
         }
         return transactions;
     }
+
 
     public static ArrayList<Transaction> deleteTransaction (Transaction transaction)
     {

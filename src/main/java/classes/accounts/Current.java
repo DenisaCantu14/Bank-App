@@ -2,7 +2,6 @@ package  classes.accounts;
 
 import  classes.transactions.Transaction;
 import  classes.transactions.TransactionService;
-
 import java.sql.SQLException;
 import java.text.ParseException;
 
@@ -25,7 +24,7 @@ public class Current extends Account {
                 "ID Account: " + ID + '\n' +
                 "IBAN: " + IBAN + '\n' +
                 "Balance: " + balance + '\n' +
-                "Created at: " + createDate.getTime() +
+                "Created at: " + createDate.getTime() + '\n' +
                 "Client Id: " + IdClient + '\n';
     }
 

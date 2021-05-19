@@ -1,7 +1,6 @@
 package classes.accounts;
 
 import classes.MyException;
-
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,7 +31,7 @@ abstract public class Account {
         this.IBAN = IBAN;
         this.balance = balance;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date date = sdf.parse(createDate);
         this.createDate = sdf.getCalendar();
         this.IdClient = idClient;

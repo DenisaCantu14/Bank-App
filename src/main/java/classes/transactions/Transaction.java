@@ -1,7 +1,6 @@
 package  classes.transactions;
 
 import  classes.accounts.AccountService;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,7 +26,7 @@ public class Transaction {
     public Transaction(Integer ID, String  date, Integer sourceAccount, double sold) throws ParseException {
         this.ID = ID;
         nrTransactions++;
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date d = sdf.parse(date);
         this.date = sdf.getCalendar();
         this.sourceAccount = sourceAccount;
@@ -70,7 +69,7 @@ public class Transaction {
     @Override
     public String toString() {
         return
-                "ID: " + ID + '\n' +
+                "ID:" + ID + '\n' +
                 "Date :" + date.getTime() + "\n" +
                 "SOURCE ACCOUNT: " + AccountService.getAccountById(sourceAccount).getIBAN() + '\n' +
                 "Sold: " + sold + "RON\n";

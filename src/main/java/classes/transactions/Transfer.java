@@ -1,7 +1,7 @@
 package  classes.transactions;
 
 import classes.MyException;
-
+import classes.accounts.AccountService;
 import java.text.ParseException;
 
 public class Transfer extends Transaction {
@@ -25,4 +25,13 @@ public class Transfer extends Transaction {
         this.targetAccount = targetAccount;
     }
 
+    @Override
+    public String toString() {
+        return
+                        "ID:" + ID + '\n' +
+                        "Date :" + date.getTime() + "\n" +
+                        "SOURCE ACCOUNT: " + AccountService.getAccountById(sourceAccount).getIBAN() + '\n' +
+                                "TARGET ACCOUNT: " + AccountService.getAccountById(targetAccount).getIBAN() + '\n' +
+                                "Sold: " + sold + "RON\n";
+    }
 }

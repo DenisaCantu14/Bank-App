@@ -16,7 +16,7 @@ public class AccountService {
         MySqlCon mySqlCon = new MySqlCon();
         Connection connection = mySqlCon.Connection();
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("select * from current ");
+        ResultSet resultSet = statement.executeQuery("select * from account, current where idaccount = idcurrent ");
         while (resultSet.next()){
             Account account = new Current(resultSet.getInt("idaccount"),
                     resultSet.getString("iban"),
@@ -26,9 +26,9 @@ public class AccountService {
             accounts.add(account);
         }
 
-        resultSet = statement.executeQuery("select idaccount,iban,balance,createDate, idclient, iddeposit, period, gain  " +
-                                               "from account a , deposit d   " +
-                                               "where a.idaccount = d.iddeposit");
+        resultSet = statement.executeQuery("select * " +
+                                               "from account, deposit " +
+                                               "where idaccount = iddeposit");
         while (resultSet.next()){
             Account account = new Deposit(resultSet.getInt("idaccount"),
                     resultSet.getString("iban"),
@@ -139,7 +139,26 @@ public class AccountService {
 
         return accounts;
     }
+    public static void updateAccount( Account account) throws SQLException {
 
+        MySqlCon mySqlCon = new MySqlCon();
+        Connection connection = mySqlCon.Connection();
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE banckingapp.account SET iban = ?, balance = ?, createdate = ?, idclient = ? WHERE (idaccount = ?);");
+        preparedStatement.setString(1,account.getIBAN());
+        preparedStatement.setDouble(2,account.getBalance());
+        preparedStatement.setDate(3, (Date) account.getCreateDate().getTime());
+        preparedStatement.setInt(4,account.getIdClient());
+        preparedStatement.setInt(5,account.getID());
+        preparedStatement.execute();
+
+        if(account instanceof Deposit)
+        { preparedStatement = connection.prepareStatement("UPDATE banckingapp.current SET period = ?, gain = ? WHERE (iddeposit = ?);");
+            preparedStatement.setInt(1, ((Deposit) account).getPeriod());
+            preparedStatement.setDouble(2,((Deposit) account).getGain());
+            preparedStatement.setInt(3,account.getID());
+            preparedStatement.execute();
+        }
+    }
     public static ArrayList<Account> deleteAccount (Account account)
     {
         Audit.write("DeleteAccount");
