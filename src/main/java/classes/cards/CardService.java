@@ -84,27 +84,26 @@ public class CardService {
     }
 
 
-    public static void updateCard(VisaCard card) throws SQLException {
+    public static void updatePin(Integer id, String pin) throws SQLException {
 
         MySqlCon mySqlCon = new MySqlCon();
         Connection connection = mySqlCon.Connection();
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE banckingapp.visacard SET cardnumber = ?, createdate = ?, expirationdate = ?, pin = ?, cvv2 = ?, idaccount = ? WHERE (idvisacard = ?);");
-        preparedStatement.setString(1,card.getCardNumber());
-        preparedStatement.setDate(2, (Date) card.getCreateDate().getTime());
-        preparedStatement.setDate(3, (Date) card.getExpirationDate().getTime());
-        preparedStatement.setString(4,card.getPin());
-        preparedStatement.setString(5,card.getCVV2());
-        preparedStatement.setInt(6,card.getIdAccount());
-        preparedStatement.setInt(7,card.getID());
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE banckingapp.visacard SET pin = ? WHERE (idvisacard = ?);");
+        preparedStatement.setString(1,pin);
+        preparedStatement.setInt(2,id);
         preparedStatement.execute();
     }
 
 
-    public static ArrayList<VisaCard> deleteCard(VisaCard card) {
+    public static void deleteCard(VisaCard card) throws SQLException {
         Audit.write("deleteCard");
         cards.remove(card);
+        MySqlCon mySqlCon = new MySqlCon();
+        Connection connection = mySqlCon.Connection();
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM banckingapp.visacard WHERE idvisacard = ? );");
+        preparedStatement.setInt(1,card.getID());
+        preparedStatement.execute();
 
-        return cards;
     }
 
 }

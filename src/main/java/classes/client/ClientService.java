@@ -1,6 +1,7 @@
 package  classes.client;
 
 import classes.MySqlCon;
+import classes.accounts.AccountService;
 import main.java.classes.Audit;
 import java.sql.*;
 import java.util.ArrayList;
@@ -87,28 +88,40 @@ public class ClientService {
             
         }
 
-        public static void updateClient(Client client) throws SQLException {
+        public static void updateEmail(String email, int id) throws SQLException {
 
             MySqlCon mySqlCon = new MySqlCon();
             Connection connection = mySqlCon.Connection();
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE banckingapp.client SET firstname = ?, lastname= ?, email = ?, address = ?, phonenumber = ?, personalcodenumber = ? WHERE idclient = ?);");
-            preparedStatement.setString(1,client.getFirstName());
-            preparedStatement.setString(2,client.getLastName());
-            preparedStatement.setString(3,client.getEmail());
-            preparedStatement.setString(4,client.getAddress());
-            preparedStatement.setString(5,client.getPhoneNumber());
-            preparedStatement.setString(6,client.getPersonalCodeNumber());
-            preparedStatement.setInt(7,client.getID());
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE banckingapp.client SET email = ? WHERE idclient = ?;");
+            preparedStatement.setString(1,email);
+            preparedStatement.setInt(2,id);
             preparedStatement.execute();
         }
+    public static void updatePhoneNumber(String phoneNr, int id) throws SQLException {
 
-        public static ArrayList<Client> deleteClient (Client client)
-        {
+        MySqlCon mySqlCon = new MySqlCon();
+        Connection connection = mySqlCon.Connection();
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE banckingapp.client SET phonenumber = ? WHERE idclient = ?;");
+        preparedStatement.setString(1,phoneNr);
+        preparedStatement.setInt(2,id);
+        preparedStatement.execute();}
+    public static void updateAddress(String address, int id) throws SQLException {
+
+        MySqlCon mySqlCon = new MySqlCon();
+        Connection connection = mySqlCon.Connection();
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE banckingapp.client SET address = ? WHERE idclient = ?;");
+        preparedStatement.setString(1,address);
+        preparedStatement.setInt(2,id);
+        preparedStatement.execute();}
+
+    public static void deleteClient (Client client) throws SQLException {
             Audit.write("deleteClient");
-
             clients.remove(client);
-
-            return clients;
+            MySqlCon mySqlCon = new MySqlCon();
+            Connection connection = mySqlCon.Connection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM banckingapp.client WHERE idclient = ?;");
+            preparedStatement.setInt(1,client.getID());
+            preparedStatement.execute();
         }
 
 

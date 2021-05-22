@@ -15,9 +15,7 @@ public class TransactionService {
             MySqlCon mySqlCon = new MySqlCon();
             Connection connection = mySqlCon.Connection();
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select *" +
-                                                             "from transaction, transfer " +
-                                                             "where idtransaction != idtransfer;");
+            ResultSet resultSet = statement.executeQuery("select * from transaction where idtransaction not in (select idtransfer from transfer);");
             while (resultSet.next()){
                 Transaction transaction = new Transaction (resultSet.getInt("idtransaction"),
                         resultSet.getString("date"),
@@ -27,9 +25,7 @@ public class TransactionService {
             }
 
 
-            resultSet = statement.executeQuery("select *" +
-                                                    "from transaction, transfer " +
-                                                    "where idtransaction = idtransfer;");
+            resultSet = statement.executeQuery("select * from transaction, transfer where idtransaction = idtransfer;");
             while (resultSet.next()){
                 Transaction transaction = new Transfer (resultSet.getInt("idtransaction"),
                         resultSet.getString("date"),
@@ -60,14 +56,14 @@ public class TransactionService {
         return null;
     }
 
-    public static ArrayList<Integer> getTransactionsByIdAccount(int id, String startDate)
+    public static ArrayList<Integer> getTransactionsByIdAccount(int id)
     {
         ArrayList<Integer> accountTransactions = new ArrayList<>();
 
         for ( Transaction transaction : transactions)
         {
 
-            if ( (transaction.getSourceAccount() == id) && transaction.getDate().toString().compareTo(startDate) > 0)  {
+            if (transaction.getSourceAccount() == id){
                 accountTransactions.add(transaction.getID());
             }
         }
@@ -83,7 +79,7 @@ public class TransactionService {
 
         preparedStatement = connection.prepareStatement("INSERT INTO transaction values (?,?,?,?)");
         preparedStatement.setInt(1,   transaction.getID());
-        preparedStatement.setDate(2, (Date) transaction.getDate().getTime());
+        preparedStatement.setDate(2, new Date(transaction.getDate().getTimeInMillis()));
         preparedStatement.setInt(3,transaction.getSourceAccount());
         preparedStatement.setDouble(4,transaction.getSold());
         preparedStatement.execute();
@@ -99,11 +95,13 @@ public class TransactionService {
     }
 
 
-    public static ArrayList<Transaction> deleteTransaction (Transaction transaction)
-    {
+    public static void deleteTransaction (Transaction transaction) throws SQLException {
         Audit.write("deleteTransaction");
-
         transactions.remove(transaction);
-        return transactions;
+        MySqlCon mySqlCon = new MySqlCon();
+        Connection connection = mySqlCon.Connection();
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM banckingapp.transaction WHERE idtransaction = ? );");
+        preparedStatement.setInt(1,transaction.getID());
+        preparedStatement.execute();
     }
 }

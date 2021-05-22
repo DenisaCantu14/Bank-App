@@ -86,12 +86,12 @@ public class AccountService {
         for ( Account account : accounts)
         {
             if ( account.getID()==ID ) {
-                System.out.println(account.getBalance());
                 if(amount > account.getBalance())
                 {
                     throw new MyException("Insufficient funds");
                 }
                 ((Current) account).withdraw(amount);
+                updateBalance(account.getBalance(), ID);
             }
         }
     }
@@ -100,9 +100,20 @@ public class AccountService {
         {
             if ( account.getID()==ID ) {
                 account.deposit(amount);
+                updateBalance(account.getBalance(), ID);
             }
         }
     }
+
+    public static void updateBalance(Double balance, int id) throws SQLException {
+
+        MySqlCon mySqlCon = new MySqlCon();
+        Connection connection = mySqlCon.Connection();
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE banckingapp.account SET balance = ? WHERE idaccount = ?;");
+        preparedStatement.setDouble(1,balance);
+        preparedStatement.setInt(2,id);
+        preparedStatement.execute();}
+
 
     public static ArrayList<Account> addAccount (Account account) throws SQLException {
         Audit.write("AddAccount");
@@ -116,7 +127,7 @@ public class AccountService {
         preparedStatement.setInt(1,   account.getID());
         preparedStatement.setString(2,account.getIBAN());
         preparedStatement.setDouble(3,account.getBalance());
-        preparedStatement.setDate(4, (Date) account.getCreateDate().getTime());
+        preparedStatement.setDate(4,new Date(account.getCreateDate().getTimeInMillis()));
         preparedStatement.setInt(5,account.getIdClient());
         preparedStatement.execute();
 
@@ -129,40 +140,26 @@ public class AccountService {
         else
         {
             account = (Deposit) account;
+            System.out.println(account);
             preparedStatement = connection.prepareStatement("INSERT INTO deposit values (?, ?, ?)");
             preparedStatement.setInt(1,   account.getID());
-            preparedStatement.setInt(1,   ((Deposit) account).getPeriod());
-            preparedStatement.setDouble(1, ((Deposit) account).getGain());
+            preparedStatement.setInt(2,   ((Deposit) account).getPeriod());
+            preparedStatement.setDouble(3, ((Deposit) account).getGain());
             preparedStatement.execute();
         }
 
 
         return accounts;
     }
-    public static void updateAccount( Account account) throws SQLException {
 
-        MySqlCon mySqlCon = new MySqlCon();
-        Connection connection = mySqlCon.Connection();
-        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE banckingapp.account SET iban = ?, balance = ?, createdate = ?, idclient = ? WHERE (idaccount = ?);");
-        preparedStatement.setString(1,account.getIBAN());
-        preparedStatement.setDouble(2,account.getBalance());
-        preparedStatement.setDate(3, (Date) account.getCreateDate().getTime());
-        preparedStatement.setInt(4,account.getIdClient());
-        preparedStatement.setInt(5,account.getID());
-        preparedStatement.execute();
-
-        if(account instanceof Deposit)
-        { preparedStatement = connection.prepareStatement("UPDATE banckingapp.current SET period = ?, gain = ? WHERE (iddeposit = ?);");
-            preparedStatement.setInt(1, ((Deposit) account).getPeriod());
-            preparedStatement.setDouble(2,((Deposit) account).getGain());
-            preparedStatement.setInt(3,account.getID());
-            preparedStatement.execute();
-        }
-    }
-    public static ArrayList<Account> deleteAccount (Account account)
-    {
+    public static ArrayList<Account> deleteAccount (Account account) throws SQLException {
         Audit.write("DeleteAccount");
         accounts.remove(account);
+        MySqlCon mySqlCon = new MySqlCon();
+        Connection connection = mySqlCon.Connection();
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM banckingapp.account WHERE idaccount = ?;");
+        preparedStatement.setInt(1,account.getID());
+        preparedStatement.execute();
         return accounts;
     }
 

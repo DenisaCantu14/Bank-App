@@ -10,24 +10,19 @@ public class AccountStatement {
     private static Integer nrStatements = 0;
     private Integer ID;
     private double balance;
-    private Calendar startDate;
     private Calendar createDate;
     private Integer idAccount;
     private ArrayList<Integer> idTransactions;
 
-    public AccountStatement(Integer idAccount, String startDate) throws Exception {
+    public AccountStatement(Integer idAccount) throws Exception {
         this.ID = ++nrStatements;
         this.idAccount = idAccount;
         this.balance = AccountService.getAccountById(idAccount).getBalance();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-        Date date = sdf.parse(startDate);
-        this.startDate = sdf.getCalendar();
         this.createDate = Calendar.getInstance();
-        this.idTransactions =  TransactionService.getTransactionsByIdAccount(idAccount, startDate);
+        this.idTransactions =  TransactionService.getTransactionsByIdAccount(idAccount);
     }
 
-    public AccountStatement(Integer ID, Integer idAccount, String startDate, String createDate, double balance, ArrayList<Integer> idTransactions) throws ParseException {
+    public AccountStatement(Integer ID, Integer idAccount, String createDate, double balance, ArrayList<Integer> idTransactions) throws ParseException {
         nrStatements++;
         this.ID = ID;
         this.idAccount = idAccount;
@@ -38,9 +33,6 @@ public class AccountStatement {
         Date date = sdf.parse(createDate);
         this.createDate = sdf.getCalendar();
 
-        sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
-        date = sdf.parse(startDate);
-        this.startDate = sdf.getCalendar();
 
     }
 
@@ -76,13 +68,6 @@ public class AccountStatement {
         this.balance = balance;
     }
 
-    public Calendar getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Calendar startDate) {
-        this.startDate = startDate;
-    }
 
     public Calendar getCreateDate() {
         return createDate;
@@ -99,7 +84,6 @@ public class AccountStatement {
                         "ID: " + ID + '\n' +
                         "IdAccount: " + idAccount + '\n' +
                         "Current balance: " + balance + '\n' +
-                        "Start Date: " + startDate.getTime() + '\n' +
                         "Create Date: " + createDate.getTime() + '\n'+
                         "List of transaction: \n";
         for (int i : idTransactions) {
@@ -113,11 +97,11 @@ public class AccountStatement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountStatement that = (AccountStatement) o;
-        return Double.compare(that.balance, balance) == 0 && Objects.equals(ID, that.ID) && Objects.equals(startDate, that.startDate) && Objects.equals(createDate, that.createDate) && Objects.equals(idAccount, that.idAccount) && Objects.equals(idTransactions, that.idTransactions);
+        return Double.compare(that.balance, balance) == 0 && Objects.equals(ID, that.ID) && Objects.equals(createDate, that.createDate) && Objects.equals(idAccount, that.idAccount) && Objects.equals(idTransactions, that.idTransactions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, balance, startDate, createDate, idAccount, idTransactions);
+        return Objects.hash(ID, balance, createDate, idAccount, idTransactions);
     }
 }
